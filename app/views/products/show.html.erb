@@ -1,0 +1,44 @@
+<p id="notice"><%= notice %></p>
+
+<p>
+  <strong>Product name:</strong>
+  <%= @product.product_name %>
+</p>
+
+<p>
+  <strong>Shop:</strong>
+  <%= @product.shop_id %>
+</p>
+
+<p>
+  <strong>Quantity:</strong>
+  <%= @product.quantity %>
+</p>
+
+<p>
+  <strong>Bulk amt:</strong>
+  <%= @product.bulk_amt %>
+</p>
+
+<p>
+  <strong>Price:</strong>
+  <%= @product.price %>
+</p>
+
+<p>
+  <strong>Category:</strong>
+  <%= @product.category %>
+</p>
+
+<p>
+  <strong>Rating:</strong>
+  <%= @product.rating %>
+</p>
+
+<p>
+  <strong>Shipping:</strong>
+  <%= @product.shipping %>
+</p>
+
+<%= link_to 'Edit', edit_product_path(@product) %> |
+<%= link_to 'Back', products_path %>
