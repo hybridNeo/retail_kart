@@ -1,0 +1,18 @@
+<script>
+function getKart()
+{
+	var cUsr=<%= current_shop.id %>;
+	return JSON.parse(localStorage.getItem("prodsOfU"+cUsr));
+}
+</script>
+Current Kart
+<div id="kartDiv"></div>
+<script>
+var kartList=getKart();
+var kartDiv=document.getElementById("kartDiv");
+for(var prodC=0;prodC<kartList.length;prodC++) 
+{
+	kartDiv.innerHTML+=kartList[prodC][1]+"<br />";
+}
+</script>
+<br /><input type="button" value="Buy" />

@@ -1,9 +1,16 @@
 Rails.application.routes.draw do
+  resources :transactions
+
   devise_for :shops
-  resources :products
+  resources :products do
+  	collection do
+  		get 'addProductSeller'
+  	end
+  end
 
   resources :shops
   match '/' ,to: 'static_pages#home',via: 'get'
+  match '/kart', to: 'static_pages#kart',via: 'get'
   # The priority is based upon order of creation: first created -> highest priority.
   # See how all your routes lay out with "rake routes".
 

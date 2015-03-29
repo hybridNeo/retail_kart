@@ -11,17 +11,23 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20150309163407) do
+ActiveRecord::Schema.define(version: 20150317180822) do
+
+  create_table "product_sellers", force: true do |t|
+    t.integer  "shopId"
+    t.integer  "unitSize"
+    t.integer  "unitCost"
+    t.integer  "stockCur"
+    t.integer  "prodId"
+    t.datetime "created_at"
+    t.datetime "updated_at"
+  end
 
   create_table "products", force: true do |t|
     t.string   "product_name"
-    t.string   "shop_id"
-    t.integer  "quantity"
-    t.integer  "bulk_amt"
-    t.integer  "price"
+    t.text     "desc"
     t.string   "category"
     t.integer  "rating"
-    t.string   "shipping"
     t.datetime "created_at"
     t.datetime "updated_at"
   end
@@ -48,5 +54,14 @@ ActiveRecord::Schema.define(version: 20150309163407) do
 
   add_index "shops", ["email"], name: "index_shops_on_email", unique: true
   add_index "shops", ["reset_password_token"], name: "index_shops_on_reset_password_token", unique: true
+
+  create_table "transactions", force: true do |t|
+    t.integer  "shopId"
+    t.text     "content"
+    t.integer  "totalCost"
+    t.date     "dueDate"
+    t.datetime "created_at"
+    t.datetime "updated_at"
+  end
 
 end
