@@ -1,0 +1,13 @@
+# Read about fixtures at http://api.rubyonrails.org/classes/ActiveRecord/FixtureSet.html
+
+one:
+  shopId: 1
+  content: MyText
+  totalCost: 1
+  dueDate: 2015-03-17
+
+two:
+  shopId: 1
+  content: MyText
+  totalCost: 1
+  dueDate: 2015-03-17

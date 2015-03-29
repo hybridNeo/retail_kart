@@ -1,0 +1,24 @@
+<p id="notice"><%= notice %></p>
+
+<p>
+  <strong>Shopid:</strong>
+  <%= @transaction.shopId %>
+</p>
+
+<p>
+  <strong>Content:</strong>
+  <%= @transaction.content %>
+</p>
+
+<p>
+  <strong>Totalcost:</strong>
+  <%= @transaction.totalCost %>
+</p>
+
+<p>
+  <strong>Duedate:</strong>
+  <%= @transaction.dueDate %>
+</p>
+
+<%= link_to 'Edit', edit_transaction_path(@transaction) %> |
+<%= link_to 'Back', transactions_path %>

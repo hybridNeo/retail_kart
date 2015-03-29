@@ -1,0 +1,15 @@
+# Read about fixtures at http://api.rubyonrails.org/classes/ActiveRecord/FixtureSet.html
+
+one:
+  shopId: 1
+  unitSize: 1
+  unitCost: 1
+  stockCur: 1
+  prodId: 1
+
+two:
+  shopId: 1
+  unitSize: 1
+  unitCost: 1
+  stockCur: 1
+  prodId: 1
