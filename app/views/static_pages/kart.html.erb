@@ -1,18 +1,25 @@
+<% if shop_signed_in? %>
 <script>
 function getKart()
 {
 	var cUsr=<%= current_shop.id %>;
-	return JSON.parse(localStorage.getItem("prodsOfU"+cUsr));
+	var kartList=localStorage.getItem("prodsOfU"+cUsr);
+	if(kartList!=null && kartList!=undefined && kartList!="")return JSON.parse(kartList);
+	else return null;
 }
 </script>
 Current Kart
 <div id="kartDiv"></div>
 <script>
 var kartList=getKart();
-var kartDiv=document.getElementById("kartDiv");
-for(var prodC=0;prodC<kartList.length;prodC++) 
+if(kartList!=null)
 {
-	kartDiv.innerHTML+=kartList[prodC][1]+"<br />";
+	var kartDiv=document.getElementById("kartDiv");
+	for(var prodC=0;prodC<kartList.length;prodC++) 
+	{
+		kartDiv.innerHTML+=kartList[prodC][1]+"<br />";
+	}
 }
 </script>
 <br /><input type="button" value="Buy" />
+<% end %>
