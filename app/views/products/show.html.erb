@@ -23,6 +23,7 @@ function addProductSeller()
    		}
     }
 }
+<% if shop_signed_in? %>
 function addToKart()
 {
 	//Set To Local Data The Products And Their Counts, Along With Product Id For Total Cost
@@ -41,6 +42,7 @@ function addToKart()
 	localStorage.setItem("prodsOfU"+cUsr,JSON.stringify(prodList));
 	document.getElementById("addSucc").innerHTML="Success!";
 }
+<% end %>
 </script>
 <p id="notice"><%= notice %></p>
 
@@ -73,9 +75,12 @@ function addToKart()
 <% end %>
 <% if shop_signed_in? %>
 <h3>Do You Also Stock This Product? If So, Fill Out The Form Below</h3>
-<input type="number" id="unitSize" placeholder="How Many Pieces Is One Unit?" /><br />
-<input type="number" id="unitCost" placeholder="How Much Do You Charge For One Unit?" /><br />
-<input type="number" id="stockCur" placeholder="How Many Units Do You Currently Have In Stock?" /><br />
+How Many Pieces Is One Unit?
+<input type="number" id="unitSize" placeholder="How Many Pieces Is One Unit?" value="<%= @seller.unitSize if @seller.present? %>" /><br />
+How Much Do You Charge For One Unit?
+<input type="number" id="unitCost" placeholder="How Much Do You Charge For One Unit?" value="<%= @seller.unitCost if @seller.present? %>" /><br />
+How Many Units Do You Currently Have In Stock?
+<input type="number" id="stockCur" placeholder="How Many Units Do You Currently Have In Stock?" value="<%= @seller.stockCur if @seller.present? %>" /><br />
 <input type="button" value="Submit Form" onclick="addProductSeller();" /><br />
 <div id="subSucc" />
 <br /><br />

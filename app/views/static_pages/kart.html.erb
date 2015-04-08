@@ -1,5 +1,56 @@
 <% if shop_signed_in? %>
+<!--<script src="http://ajax.googleapis.com/ajax/libs/jquery/1.11.2/jquery.min.js"></script>-->
 <script>
+function setFinalCost()
+{
+	var totalLen=unitCost.length;
+	var finalSum=0;
+	for(var k=0;k<totalLen;k++)
+	{
+		finalSum+=parseInt(document.getElementById('i'+k+'4').innerHTML);
+	}
+	document.getElementById('finalCost').innerHTML=finalSum;
+}
+function changeQuantity()
+{
+	var cUsr=<%= current_shop.id %>;
+	var chTd=parseInt(this.parentNode.id.substr(1));
+	var newVal=prompt('Enter The New Count, Less Than '+stockCur[chTd]);
+	if(newVal!='')
+	{
+		if(newVal<=stockCur[chTd])
+		{
+			kartList[chTd][1]=newVal.toString();
+			document.getElementById('i'+chTd+'4').innerHTML=newVal*unitCost[chTd];
+			chTd=document.getElementById('i'+chTd+'1');
+			chTd.innerHTML=newVal.toString();
+			localStorage.setItem('prodsOfU'+cUsr,JSON.stringify(kartList));
+		}
+	}
+	setFinalCost();
+}
+function delProd()
+{
+	var cUsr=<%= current_shop.id %>;
+	var delTr=this.parentNode.parentNode;
+	var delId=delTr.id.substr(1);
+	var totalLen=unitCost.length;
+	for(var k=parseInt(delId)+1;k<totalLen;k++)
+	{
+		for(var l=0;l<=4;l++)
+		{
+			document.getElementById('i'+k+l).id='i'+(k-1)+l;
+		}
+		document.getElementById('o'+k).id='o'+(k-1);
+		document.getElementById('t'+k).id='t'+(k-1);
+	}
+	unitCost.splice(parseInt(delId),1);
+	stockCur.splice(parseInt(delId),1);
+	kartList.splice(parseInt(delId),1);
+	localStorage.setItem('prodsOfU'+cUsr,JSON.stringify(kartList));
+	delTr.parentNode.removeChild(delTr);
+	setFinalCost();
+}
 function getKart()
 {
 	var cUsr=<%= current_shop.id %>;
@@ -9,17 +60,105 @@ function getKart()
 }
 </script>
 Current Kart
-<div id="kartDiv"></div>
+<div id="kartDiv"><table id="kartTable">
+	<tr>
+	<td>
+	Product ID
+	</td>
+	<td>
+	Count
+	</td>
+	<td>
+	Seller ID
+	</td>
+	<td>
+	Cost Per Unit
+	</td>
+	<td>
+	Total Cost
+	</td>
+	<td>
+	Options
+	</td>
+	</tr>
+</table></div>
 <script>
 var kartList=getKart();
+var xmlhttp;
+if (window.XMLHttpRequest)
+{
+	 xmlhttp=new XMLHttpRequest();
+}
+else
+{
+ 	xmlhttp=new ActiveXObject("Microsoft.XMLHTTP");
+}
 if(kartList!=null)
 {
 	var kartDiv=document.getElementById("kartDiv");
+	var ar1=[];
+	var ar2=[];
+	var stockCur=[];
+	var unitCost=[];
 	for(var prodC=0;prodC<kartList.length;prodC++) 
 	{
-		kartDiv.innerHTML+=kartList[prodC][1]+"<br />";
+		ar1.push(kartList[prodC][0]);
+		ar2.push(kartList[prodC][2]);
+	}
+	var st1=ar1.join('_');
+	var st2=ar2.join('_');
+	xmlhttp.open("GET","/products/getSellerCost.json?pid="+st1+"&uid="+st2,true);
+	xmlhttp.send(null);
+	xmlhttp.onreadystatechange=function()
+	{
+		if(xmlhttp.readyState==4 && xmlhttp.status==200)
+		{
+			json=JSON.parse(xmlhttp.responseText);
+			stockCur=[];
+			unitCost=[];
+			for(j=0;j<json.length;j++)
+			{
+				stockCur.push(parseInt(json[j]['stockCur']).toString());
+				unitCost.push(parseInt(json[j]['unitCost']).toString());
+			}
+			for(var prodC=0;prodC<kartList.length;prodC++) 
+			{
+				var nTr=document.createElement('tr');
+				nTr.id="t"+prodC;
+				for(k=0;k<kartList[prodC].length;k++)
+				{
+					var nTd=document.createElement('td');
+					nTd.id='i'+prodC+k;
+					nTd.innerHTML=kartList[prodC][k];
+					nTr.appendChild(nTd);
+				}
+				var nTd=document.createElement('td');
+				nTd.id='i'+prodC+'3';
+				nTd.innerHTML=unitCost[prodC];
+				nTr.appendChild(nTd);
+				var nTd=document.createElement('td');
+				nTd.id='i'+prodC+'4';
+				nTd.innerHTML=unitCost[prodC]*kartList[prodC][1];
+				nTr.appendChild(nTd);
+				var nTd=document.createElement('td');
+				nTd.id='o'+prodC;
+				var iBtn=document.createElement('button');
+				iBtn.onclick=changeQuantity;
+				iBtn.value="Change Quantity";
+				nTd.appendChild(iBtn);
+				iBtn=document.createElement('button');
+				iBtn.onclick=delProd;
+				iBtn.value="Delete";
+				nTd.appendChild(iBtn);
+				nTr.appendChild(nTd);
+				document.getElementById('kartTable').appendChild(nTr);
+			}
+			setFinalCost();
+		}
 	}
 }
 </script>
+Final Cost
+<div id="finalCost"></div>
 <br /><input type="button" value="Buy" />
 <% end %>

@@ -2,6 +2,8 @@ class ProductsController < ApplicationController
   before_action :set_product, only: [:show, :edit, :update, :destroy]
   before_action :set_sellers, only: [:show]
   before_action :set_seller, only: [:addProductSeller]
+  before_action :set_sel_par, only: [:getSellerCost]
+  before_action :set_sel_cur, only: [:show]
 
   # GET /products
   # GET /products.json
@@ -77,6 +79,12 @@ class ProductsController < ApplicationController
     end
   end
 
+  def getSellerCost
+     respond_to do |format|
+      format.json { render json: @sellers }
+    end
+  end
+
   private
     # Use callbacks to share common setup or constraints between actions.
     def set_product
@@ -100,5 +108,18 @@ class ProductsController < ApplicationController
         @f=0
       end
       @seller
+    end
+
+    def set_sel_cur
+      @seller=ProductSellers.find_by(:prodId => params[:id], :shopId => current_shop.id)
+    end
+
+    def set_sel_par
+      pid=params[:pid].split('_')
+      uid=params[:uid].split('_')
+      @sellers=[]
+      (0...pid.length).each do |i|
+        @sellers.push ProductSellers.find_by(:prodId => pid[i], :shopId => uid[i])
+      end
     end
 end
