@@ -24,7 +24,8 @@
      
       <% if shop_signed_in? %>
      
-       <li><a href="/kart">Kart</a></li>
+       <li><a href="/kart">My Kart</a></li>
+       <li><a href="/products/new"> Add Product </a></li>
        <li><%= link_to 'Sign out', destroy_shop_session_path ,:method => :delete %></li>
       <% else %>
           <li><a href="/shops/sign_up">Sign Up </a></li>
