@@ -21,8 +21,16 @@
   	
     <!-- Left Nav Section -->
    	<ul class="right">
-      <li><a href="/kart">Kart</a></li>
-   		<li><a href="/shops/sign_up">Sign Up </a></li>
+     
+      <% if shop_signed_in? %>
+     
+       <li><a href="/kart">Kart</a></li>
+       <li><%= link_to 'Sign out', destroy_shop_session_path ,:method => :delete %></li>
+      <% else %>
+          <li><a href="/shops/sign_up">Sign Up </a></li>
+          <li><a href="/shops/sign_in">Sign In </a></li>
+      <% end %>
+   	
    	</ul>
     <ul class="left">
 

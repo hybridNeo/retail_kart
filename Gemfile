@@ -13,7 +13,6 @@ gem 'devise'
 gem 'omniauth'
 gem 'omniauth-twitter'
 gem 'will_paginate', '3.0.4'
-gem 'aws-sdk'
 gem 'tzinfo-data'
 # Use SCSS for stylesheets
 gem 'sass-rails'
