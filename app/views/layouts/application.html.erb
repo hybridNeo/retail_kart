@@ -3,66 +3,49 @@
 <head>
   <title>RetailKart</title>
 
-  <%= stylesheet_link_tag    'application', media: 'all', 'data-turbolinks-track' => true %>
-  <%= javascript_include_tag 'application', 'data-turbolinks-track' => true %>
-  <%= csrf_meta_tags %>
+  
+   <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <meta name="description" content="">
+    <meta name="author" content="">
+
+
+    <!-- Bootstrap Core CSS - Uses Bootswatch Flatly Theme: http://bootswatch.com/flatly/ -->
+    <link href="/css/bootstrap.min.css" rel="stylesheet">
+
+    <!-- Custom CSS -->
+    <link href="/css/freelancer.css" rel="stylesheet">
+
+    <!-- Custom Fonts -->
+    <link href="/font-awesome/css/font-awesome.min.css" rel="stylesheet" type="text/css">
+    <link href="http://fonts.googleapis.com/css?family=Montserrat:400,700" rel="stylesheet" type="text/css">
+    <link href="http://fonts.googleapis.com/css?family=Lato:400,700,400italic,700italic" rel="stylesheet" type="text/css">
+  <%= stylesheet_link_tag "application", media: "all",
+"data-turbolinks-track" => true %>
+<%= javascript_include_tag "vendor/modernizr","application" %>
+
+<%= csrf_meta_tags %>
+
+
 </head>
 <body>
 <!-- start of top bar -->
-<nav class="top-bar" data-topbar role="navigation">
-  <ul class="title-area">
-    <li class="name">
-      <h1><a href="/">RetailKart</a></h1>
-    </li>
-     <!-- Remove the class "menu-icon" to get rid of menu icon. Take out "Menu" to just have icon alone -->
-  	
-    </ul>
-  	<section class="top-bar-section">
-  	
-    <!-- Left Nav Section -->
-   	<ul class="right">
-     
-      <% if shop_signed_in? %>
-     
-       <li><a href="/kart">My Kart</a></li>
-       <li><a href="/products/new"> Add Product </a></li>
-       <li><%= link_to 'Sign out', destroy_shop_session_path ,:method => :delete %></li>
-      <% else %>
-          <li><a href="/shops/sign_up">Sign Up </a></li>
-          <li><a href="/shops/sign_in">Sign In </a></li>
-      <% end %>
-   	
-   	</ul>
-    <ul class="left">
+<%= render 'layouts/header' %>
 
-      <li><a href="/products">Products</a></li>
-      <!-- start of search bar -->
-      <li class="has-form">
-	 	<div class="row collapse">
-    	<div class="large-8 small-9 columns">
-    	  <input type="text" placeholder="Find Products">
-    	</div>
-   		<div class="large-4 small-3 columns">
-     	<a href="#" class="alert button expand">Search</a>
-  	  	</div>
-  		</div>
-	  </li>
-	  <!-- End of search bar -->
-
-    </ul>
-  </section>
-</nav>
 
 <!-- end of top bar -->
-<div class="row">
-	<div class="small-2 large-2 columns">
-	</div>
-	<div class="small-12 large-12 columns">
+  <br>
+  <br>
+  <br>
+  <br>
+  <br>
+  <div class="row">
+    <div class="col-md-8">
 		<%= yield %>
+    </div>
 	</div>
-	
-</div>
 
-
+<%= render 'layouts/footer' %>
 </body>
 </html>
