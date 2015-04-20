@@ -1,11 +1,12 @@
 Rails.application.routes.draw do
-  resources :transactions
+  resources :transactions, only: [:index, :show, :destroy]
 
   devise_for :shops
   resources :products do
   	collection do
   		get 'addProductSeller'
       get 'getSellerCost'
+      get 'createReceipt'
   	end
   end
 

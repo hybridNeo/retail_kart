@@ -1,6 +1,44 @@
 <% if shop_signed_in? %>
 <!--<script src="http://ajax.googleapis.com/ajax/libs/jquery/1.11.2/jquery.min.js"></script>-->
 <script>
+function makeReceipt()
+{
+	var cUsr=<%= current_shop.id %>;
+	var kartWrite=localStorage.getItem("prodsOfU"+cUsr);
+	if(kartWrite!=null && kartWrite!=undefined && kartWrite!="")kartWrite=JSON.parse(kartWrite);
+	else kartWrite=null;
+	var prodWrite="";
+	var shopWrite="";
+	var countWrite="";
+	console.log(kartWrite[0]);
+	for(var k=0;k<kartWrite.length;k++)
+	{
+		prodWrite+=kartWrite[k][0]+",";
+		countWrite+=kartWrite[k][1]+",";
+		shopWrite+=kartWrite[k][2]+",";
+	}
+	prodWrite=prodWrite.substr(0,prodWrite.length-1);
+	countWrite=countWrite.substr(0,countWrite.length-1);	
+	shopWrite=shopWrite.substr(0,shopWrite.length-1);
+	var xmlhttp;
+	if (window.XMLHttpRequest)
+	{
+		 xmlhttp=new XMLHttpRequest();
+	}
+	else
+	{
+	 	xmlhttp=new ActiveXObject("Microsoft.XMLHTTP");
+	}
+	xmlhttp.open("GET","/products/createReceipt.json?prods="+prodWrite+"&shops="+shopWrite+"&counts="+countWrite,true);
+	xmlhttp.send(null);
+	xmlhttp.onreadystatechange=function()
+	{
+		if(xmlhttp.readyState==4 && xmlhttp.status==200)
+		{
+			if(JSON.parse(xmlhttp.responseText)["msg"]=="Success")localStorage.setItem('prodsOfU'+cUsr,"");
+		}
+	}
+}
 function setFinalCost()
 {
 	var totalLen=unitCost.length;
@@ -160,5 +198,5 @@ if(kartList!=null)
 </script>
 Final Cost
 <div id="finalCost"></div>
-<br /><input type="button" value="Buy" />
+<br /><input type="button" value="Buy" onclick="makeReceipt();" />
 <% end %>

@@ -1,34 +1,20 @@
 class TransactionsController < ApplicationController
-  before_action :set_transaction, only: [:show, :edit, :update, :destroy]
-
+  before_action :set_transaction, only: [:show, :destroy]
+  before_filter :authenticate_shop!
   respond_to :html
 
   def index
-    @transactions = Transaction.all
+    @transactions = Transaction.where(:shopId => current_shop.id)
     respond_with(@transactions)
   end
 
   def show
-    respond_with(@transaction)
-  end
-
-  def new
-    @transaction = Transaction.new
-    respond_with(@transaction)
-  end
-
-  def edit
-  end
-
-  def create
-    @transaction = Transaction.new(transaction_params)
-    @transaction.save
-    respond_with(@transaction)
-  end
-
-  def update
-    @transaction.update(transaction_params)
-    respond_with(@transaction)
+    details=@transaction.content.split(";")
+    @prods=details[0].split(",")
+    @shops=details[1].split(",")
+    @counts=details[2].split(",")
+    @costs=details[3].split(",")
+    respond_with(@transaction, @prods, @shops, @counts, @costs)
   end
 
   def destroy

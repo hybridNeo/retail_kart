@@ -7,7 +7,22 @@
 
 <p>
   <strong>Content:</strong>
-  <%= @transaction.content %>
+  <table>
+  	<tr>
+  	  <th>Product</th>
+  	  <th>Seller</th>
+      <th>Count</th>
+  	  <th>Cost</th>
+  	</tr>
+  	<% (0...@prods.length).each do |i| %>
+  	<tr>
+  		<td><%= @prods[i] %></td>
+  		<td><%= @shops[i] %></td>
+  		<td><%= @counts[i] %></td>
+      <td><%= @costs[i] %></td>
+  	</tr>
+  	<% end %>
+  </table>
 </p>
 
 <p>
@@ -15,10 +30,9 @@
   <%= @transaction.totalCost %>
 </p>
 
-<p>
+<!-- <p>
   <strong>Duedate:</strong>
   <%= @transaction.dueDate %>
-</p>
+</p> -->
 
-<%= link_to 'Edit', edit_transaction_path(@transaction) %> |
 <%= link_to 'Back', transactions_path %>

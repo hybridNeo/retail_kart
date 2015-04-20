@@ -80,8 +80,45 @@ class ProductsController < ApplicationController
   end
 
   def getSellerCost
-     respond_to do |format|
+    respond_to do |format|
       format.json { render json: @sellers }
+    end
+  end
+
+  def createReceipt
+    prods=params[:prods].split(",")
+    shops=params[:shops].split(",")
+    counts=params[:counts].split(",")
+    recs=[]
+    costs=[]
+    nId=""
+    res="Success"
+    totalCost=0
+    (0...prods.length).each do |i|
+      rec=ProductSellers.find_by(:prodId => prods[i], :shopId => shops[i])
+      if rec.stockCur>=counts[i].to_i
+        rec.stockCur-=counts[i].to_i
+        costs.push counts[i].to_i*rec.unitCost
+        totalCost+=counts[i].to_i*rec.unitCost
+        recs.push rec
+      else
+        res="Failure"
+        break
+      end
+    end
+    if res=="Success"
+      recs.each do |r|
+        r.save
+      end
+      receipt=Transaction.new
+      nId=receipt.id
+      receipt.totalCost=totalCost
+      receipt.shopId=current_shop.id
+      receipt.content=params[:prods]+";"+params[:shops]+";"+params[:counts]+";"+costs.join(",")
+      receipt.save
+    end
+    respond_to do |format|
+      format.json { render json: {:msg => res, :nId => nId} }
     end
   end
 
