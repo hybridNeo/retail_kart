@@ -1,0 +1,17 @@
+<%  if shop_signed_in? %>
+<h3>Inventory</h3>
+<table>
+<tr>
+<th>Product Name</th>
+<th>Image</th>
+<th>Current Stock</th>
+</tr>
+<% @inventory.each do |inv| %>
+<tr>
+<td><%= Product.where(:id => inv.prodId)[0].product_name %></td>
+<td><%= Product.where(:id => inv.prodId)[0].desc %></td>
+<td><%= inv.stockCur %></td>
+</tr>
+<% end %>
+</table>
+<% end %>
