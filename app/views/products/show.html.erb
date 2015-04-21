@@ -1,4 +1,5 @@
 <script>
+<% if shop_signed_in? %>
 function addProductSeller()
 {
 	var unitSize=document.getElementById("unitSize").value;
@@ -23,10 +24,8 @@ function addProductSeller()
    		}
     }
 }
-<% if shop_signed_in? %>
 function addToKart()
 {
-	//Set To Local Data The Products And Their Counts, Along With Product Id For Total Cost
 	var cUsr=<%= current_shop.id %>;
 	var cPrd=<%= @product.id %>;
 	var prodList=JSON.parse(localStorage.getItem("prodsOfU"+cUsr));
@@ -68,9 +67,22 @@ function addToKart()
 <br /><br />
 <% if @sellers.present? %>
 <h4>Current Sellers</h4>
+<table>
+<tr>
+<th>Shop Name</th>
+<th>Size Of Unit</th>
+<th>Cost Per Unit</th>
+<th>Current Stock</th>
+</tr>
 <% @sellers.each do |s| %>
-<%= s.shopId %><br />
+<tr>
+<td><%= Shop.where(:id => s.shopId)[0].shop_name %></td>
+<td><%= s.unitSize %></td>
+<td><%= s.unitCost %></td>
+<td><%= s.stockCur %></td>
+</tr>
 <% end %>
+</table>
 <br /><br />
 <% end %>
 <% if shop_signed_in? %>
@@ -82,17 +94,19 @@ How Much Do You Charge For One Unit?
 How Many Units Do You Currently Have In Stock?
 <input type="number" id="stockCur" placeholder="How Many Units Do You Currently Have In Stock?" value="<%= @seller.stockCur if @seller.present? %>" /><br />
 <input type="button" value="Submit Form" onclick="addProductSeller();" /><br />
-<div id="subSucc" />
+<div id="subSucc"></div>
 <br /><br />
 <h4>Add To Kart</h4>
 <input type="number" id="countBuy" placeholder="How Many Units?" /><br />
 <select id="sellShop" placeholder="Who From?">
 <% @sellers.each do |s| %>
-<option><%= s.shopId %></option>
+<% unless s.shopId==current_shop.id %>
+<option><%= Shop.where(:id => s.shopId)[0].shop_name %></option>
+<% end %>
 <% end %>
 </select>
 <input type="button" value="Add To Kart" onclick="addToKart();" /><br />
-<div id="addSucc" />
+<div id="addSucc"></div>
 
 <%= link_to 'Edit', edit_product_path(@product) %> |
 <% end %>
