@@ -19,6 +19,7 @@
                 <% if shop_signed_in? %>
      
                        <li><a href="/kart">My Kart</a></li>
+                       <li><a href="/inventory">My Inventory</a></li>
                        <li><a href="/products/new"> Add Product </a></li>
                        <li><%= link_to 'Sign out', destroy_shop_session_path ,:method => :get%></li>
                 <% else %>

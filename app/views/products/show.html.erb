@@ -46,13 +46,12 @@ function addToKart()
 <p id="notice"><%= notice %></p>
 
 <p>
-  <strong>Product name:</strong>
-  <span id="prodName"><%= @product.product_name %></span>
+  
+  <span id="prodName"><h3><%= @product.product_name %></h3></span>
 </p>
 
 <p>
-  <strong>Shop:</strong>
-  <%= @product.desc %>
+  <%= image_tag @product.desc,size: "200*200" ,alt: "http://localhost:3000/img/shoppingcart13.png" %> 
 </p>
 
 <p>
@@ -96,6 +95,7 @@ How Many Units Do You Currently Have In Stock?
 <input type="button" value="Submit Form" onclick="addProductSeller();" /><br />
 <div id="subSucc"></div>
 <br /><br />
+
 <h4>Add To Kart</h4>
 <input type="number" id="countBuy" placeholder="How Many Units?" /><br />
 <select id="sellShop" placeholder="Who From?">
@@ -108,6 +108,4 @@ How Many Units Do You Currently Have In Stock?
 <input type="button" value="Add To Kart" onclick="addToKart();" /><br />
 <div id="addSucc"></div>
 
-<%= link_to 'Edit', edit_product_path(@product) %> |
 <% end %>
-<%= link_to 'Back', products_path %>
