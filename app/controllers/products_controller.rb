@@ -8,7 +8,16 @@ class ProductsController < ApplicationController
   # GET /products
   # GET /products.json
   def index
-    @products = Product.all
+    if(params['query'] != nil)
+      @products = Product.where("lower(product_name) = ?", params['query'].downcase)
+      # @products = Product.where(:product_name =>  params['query'])
+      # raise 'err'
+
+    else
+      @products = Product.all
+    end
+    
+    
   end
 
   # GET /products/1
