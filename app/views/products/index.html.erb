@@ -11,6 +11,11 @@
   <input type="text" style="width:50%;overflow:hidden;white-space:nowrap" id="search" placeholder="Enter Item to Search."> <input type="button" value="Click to Go" class="btn btn-default" onclick="search()">
   </span>
   <hr>
+    <% if(@products[0] == nil) %>
+        <h2>No Products found</h2>
+        <br>
+        <br>
+    <% else %>
     <% @products.each do |product| %>
         <div class="row">
         <div class ="col-md-4">
@@ -44,3 +49,4 @@
 
 <br>
 
+<% end %>
