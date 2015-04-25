@@ -28,11 +28,9 @@ function addToKart()
 {
 	var cUsr=<%= current_shop.id %>;
 	var cPrd=<%= @product.id %>;
-	var prodList=JSON.parse(localStorage.getItem("prodsOfU"+cUsr));
-	if(prodList==null || prodList==undefined)
-	{
-		prodList=[];
-	}
+	var prodList=localStorage.getItem("prodsOfU"+cUsr);
+	if(prodList==null || prodList==undefined || prodList=="")prodList=[];
+	else prodList=JSON.parse(prodList);
 	var curProd=[];
 	curProd.push(cPrd);
 	curProd.push(document.getElementById("countBuy").value);
@@ -101,7 +99,7 @@ How Many Units Do You Currently Have In Stock?
 <select id="sellShop" placeholder="Who From?">
 <% @sellers.each do |s| %>
 <% unless s.shopId==current_shop.id %>
-<option><%= Shop.where(:id => s.shopId)[0].shop_name %></option>
+<option value="<%= s.shopId %>"><%= Shop.where(:id => s.shopId)[0].shop_name %></option>
 <% end %>
 <% end %>
 </select>
