@@ -35,7 +35,14 @@ function makeReceipt()
 	{
 		if(xmlhttp.readyState==4 && xmlhttp.status==200)
 		{
-			if(JSON.parse(xmlhttp.responseText)["msg"]=="Success")localStorage.setItem('prodsOfU'+cUsr,"");
+			if(JSON.parse(xmlhttp.responseText)["msg"]=="Success")
+			{
+				arr=[]
+				for(var prodC=0;prodC<kartList.length;prodC++)arr.push(kartList[prodC][0]);
+				arr=arr.join("_");
+				localStorage.setItem('prodsOfU'+cUsr,"");
+				window.location.href="/review?lst="+arr;
+			}
 		}
 	}
 }
@@ -101,13 +108,13 @@ Current Kart
 <div id="kartDiv"><table id="kartTable">
 	<tr>
 	<td>
-	Product ID
+	Product Name
 	</td>
 	<td>
 	Count
 	</td>
 	<td>
-	Seller ID
+	Seller Name
 	</td>
 	<td>
 	Cost Per Unit
@@ -154,22 +161,27 @@ if(kartList!=null)
 			json=JSON.parse(xmlhttp.responseText);
 			stockCur=[];
 			unitCost=[];
-			for(j=0;j<json.length;j++)
+			for(j=0;j<json["sellers"].length;j++)
 			{
-				stockCur.push(parseInt(json[j]['stockCur']).toString());
-				unitCost.push(parseInt(json[j]['unitCost']).toString());
+				stockCur.push(parseInt(json["sellers"][j]['stockCur']).toString());
+				unitCost.push(parseInt(json["sellers"][j]['unitCost']).toString());
 			}
 			for(var prodC=0;prodC<kartList.length;prodC++) 
 			{
 				var nTr=document.createElement('tr');
 				nTr.id="t"+prodC;
-				for(k=0;k<kartList[prodC].length;k++)
-				{
-					var nTd=document.createElement('td');
-					nTd.id='i'+prodC+k;
-					nTd.innerHTML=kartList[prodC][k];
-					nTr.appendChild(nTd);
-				}
+				var nTd=document.createElement('td');
+				nTd.id='i'+prodC+0;
+				nTd.innerHTML=json["products"][prodC]["product_name"];
+				nTr.appendChild(nTd);
+				var nTd=document.createElement('td');
+				nTd.id='i'+prodC+1;
+				nTd.innerHTML=kartList[prodC][1];
+				nTr.appendChild(nTd);
+				var nTd=document.createElement('td');
+				nTd.id='i'+prodC+2;
+				nTd.innerHTML=json["shops"][prodC]["shop_name"];
+				nTr.appendChild(nTd);
 				var nTd=document.createElement('td');
 				nTd.id='i'+prodC+'3';
 				nTd.innerHTML=unitCost[prodC];

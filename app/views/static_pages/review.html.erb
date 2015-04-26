@@ -1,0 +1,63 @@
+<script>
+function setR(x)
+{
+	document.getElementById(x+"V").innerHTML=document.getElementById(x+"R").value;
+}
+function submitReviews()
+{
+	ids=[];
+	<% @products.each do |p| %>
+	ids.push(<%= p.id %>);
+	<% end %>
+	ratings=[];
+	contents=[];
+	for(i=0;i<ids.length;i++)
+	{
+		if(document.getElementById(ids[i]+"C").value!="")
+		{
+			ratings.push(document.getElementById(ids[i]+"R").value);
+			contents.push(document.getElementById(ids[i]+"C").value);	
+		}
+		else
+		{
+			ids[i]=-1;
+		}
+	}
+	while(1)
+	{
+		var index=ids.indexOf(-1);
+		if(index==-1)break;
+		ids.splice(index, 1);
+	}
+	ids=ids.join("_");
+	ratings=ratings.join("_");
+	contents=contents.join("_");
+	var xmlhttp;
+	if (window.XMLHttpRequest)
+	{
+ 		 xmlhttp=new XMLHttpRequest();
+  	}
+	else
+	{
+ 	 	xmlhttp=new ActiveXObject("Microsoft.XMLHTTP");
+	}
+	xmlhttp.open("GET","/setReviews?ids="+ids+"&ratings="+ratings+"&contents="+contents,true);
+	xmlhttp.send(null);
+	xmlhttp.onreadystatechange=function()
+ 	{
+ 	 	if(xmlhttp.readyState==4 && xmlhttp.status==200)
+     	{
+    		alert("Thank You For Your Time");
+   		}
+    }
+}
+</script>
+<h4>Rate These Products!</h4>
+<% @products.each do |p| %>
+<div id="<%= p.id %>D">
+<%= p.product_name %>
+<input type="range" min="1" max="5" id="<%= p.id %>R" onchange="setR(<%= p.id %>);" /><span id="<%= p.id %>V">3</span><br />
+<textarea placeholder="Review" id="<%= p.id %>C"></textarea>
+</div>
+<% end %>
+<input type="button" value="Submit" onclick="submitReviews();" />
