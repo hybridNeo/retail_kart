@@ -90,7 +90,7 @@ class ProductsController < ApplicationController
 
   def getSellerCost
     respond_to do |format|
-      format.json { render json: @sellers }
+      format.json { render json: {:sellers => @sellers, :products => @products, :shops => @shops} }
     end
   end
 
@@ -157,6 +157,7 @@ class ProductsController < ApplicationController
     end
 
     def set_sel_cur
+      @reviews=Review.where(:pid => params[:id])
       @seller=ProductSellers.find_by(:prodId => params[:id], :shopId => current_shop.id)
     end
 
@@ -164,8 +165,12 @@ class ProductsController < ApplicationController
       pid=params[:pid].split('_')
       uid=params[:uid].split('_')
       @sellers=[]
+      @products=[]
+      @shops=[]
       (0...pid.length).each do |i|
         @sellers.push ProductSellers.find_by(:prodId => pid[i], :shopId => uid[i])
+        @products.push Product.find_by(:id => pid[i])
+        @shops.push Shop.find_by(:id => uid[i])
       end
     end
 end

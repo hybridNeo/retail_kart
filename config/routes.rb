@@ -14,6 +14,8 @@ Rails.application.routes.draw do
   match '/' ,to: 'static_pages#home',via: 'get'
   match '/kart', to: 'static_pages#kart',via: 'get'
   match '/inventory', to: 'static_pages#inventory',via: 'get'
+  match '/review', to: 'static_pages#review',via: 'get'
+  match '/setReviews', to: 'static_pages#setReviews',via: 'get'
   # The priority is based upon order of creation: first created -> highest priority.
   # See how all your routes lay out with "rake routes".
 

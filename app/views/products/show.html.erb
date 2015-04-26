@@ -107,3 +107,12 @@ How Many Units Do You Currently Have In Stock?
 <div id="addSucc"></div>
 
 <% end %>
+<br />
+<% if @reviews.exists? %>
+<h4>Reviews</h4>
+<br />
+<% @reviews.each do |r| %>
+User <%= Shop.find_by(:id => r.uid).shop_name %> Rates This Product <%= r.rating %><br />
+User Says: <%= r.content %><br /><br />
+<% end %>
+<% end %>

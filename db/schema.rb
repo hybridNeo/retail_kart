@@ -11,7 +11,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20150317180822) do
+ActiveRecord::Schema.define(version: 20150426163253) do
 
   create_table "product_sellers", force: true do |t|
     t.integer  "shopId"
@@ -30,6 +30,16 @@ ActiveRecord::Schema.define(version: 20150317180822) do
     t.integer  "rating"
     t.datetime "created_at"
     t.datetime "updated_at"
+    t.integer  "rCount"
+  end
+
+  create_table "reviews", force: true do |t|
+    t.integer  "uid"
+    t.integer  "rating"
+    t.text     "content"
+    t.datetime "created_at"
+    t.datetime "updated_at"
+    t.integer  "pid"
   end
 
   create_table "shops", force: true do |t|
