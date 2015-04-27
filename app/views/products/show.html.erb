@@ -1,6 +1,8 @@
 <script>
+
 <% if shop_signed_in? %>
-function addProductSeller()
+
+  function addProductSeller()
 {
 	var unitSize=document.getElementById("unitSize").value;
 	var unitCost=document.getElementById("unitCost").value;
@@ -112,7 +114,13 @@ How Many Units Do You Currently Have In Stock?
 <h4>Reviews</h4>
 <br />
 <% @reviews.each do |r| %>
-User <%= Shop.find_by(:id => r.uid).shop_name %> Rates This Product <%= r.rating %><br />
-User Says: <%= r.content %><br /><br />
+<div class="ui rating" data-rating="3" data-max-rating="5"></div>
+<a> <%= Shop.find_by(:id => r.uid).shop_name %> </a><br><b style="color:yellow;
+font-size:35px; font-family: "Times New Roman", Georgia, Serif;
+"><%= '*' * r.rating %></b> 
+<br>
+<%= r.content %><br />
+
+<hr>
 <% end %>
 <% end %>

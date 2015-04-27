@@ -104,7 +104,8 @@ function getKart()
 	else return null;
 }
 </script>
-Current Kart
+<br><br>
+<b>Current Kart:</b><br><br>
 <div id="kartDiv"><table id="kartTable">
 	<tr>
 	<td>
@@ -193,12 +194,22 @@ if(kartList!=null)
 				var nTd=document.createElement('td');
 				nTd.id='o'+prodC;
 				var iBtn=document.createElement('button');
+				var t = document.createTextNode("Add item");  
+				iBtn.appendChild(t);
+				iBtn.className = "btn btn-info";
+				//iBtn.style = "color:yellow";
+				//iBtn.data = "Change";
 				iBtn.onclick=changeQuantity;
-				iBtn.value="Change Quantity";
+				//iBtn.value="Change Quantity";
 				nTd.appendChild(iBtn);
 				iBtn=document.createElement('button');
 				iBtn.onclick=delProd;
+				iBtn.className = "btn btn-danger";
+				
 				iBtn.value="Delete";
+				var p = document.createTextNode("Truncate ");  
+				iBtn.appendChild(p);
+				
 				nTd.appendChild(iBtn);
 				nTr.appendChild(nTd);
 				document.getElementById('kartTable').appendChild(nTr);
@@ -208,7 +219,8 @@ if(kartList!=null)
 	}
 }
 </script>
-Final Cost
+<b>Final Cost</b>
 <div id="finalCost"></div>
-<br /><input type="button" value="Buy" onclick="makeReceipt();" />
+<br /><input type="button" class="btn btn-default" value="Buy" onclick="makeReceipt();" />
+<br><br>
 <% end %>

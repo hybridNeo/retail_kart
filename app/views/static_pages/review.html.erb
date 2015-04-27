@@ -48,10 +48,13 @@ function submitReviews()
  	 	if(xmlhttp.readyState==4 && xmlhttp.status==200)
      	{
     		alert("Thank You For Your Time");
+    		window.location("/");
    		}
     }
 }
 </script>
+<br>
+</br>
 <h4>Rate These Products!</h4>
 <% @products.each do |p| %>
 <div id="<%= p.id %>D">
@@ -60,4 +63,5 @@ function submitReviews()
 <textarea placeholder="Review" id="<%= p.id %>C"></textarea>
 </div>
 <% end %>
-<input type="button" value="Submit" onclick="submitReviews();" />
+<input type="button" class="btn btn-primary" value="Submit" onclick="submitReviews();" />
+<br><br>

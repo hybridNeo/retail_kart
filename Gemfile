@@ -12,6 +12,7 @@ end
 gem 'devise'
 gem 'omniauth'
 gem 'omniauth-twitter'
+gem "bower-rails", "~> 0.9.2"
 gem 'will_paginate', '3.0.4'
 gem 'tzinfo-data'
 # Use SCSS for stylesheets
